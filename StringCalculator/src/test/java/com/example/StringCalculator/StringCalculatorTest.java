@@ -21,4 +21,16 @@ public class StringCalculatorTest {
 		assertEquals(3,StringCalculator.Add("1,2"));
 	}
 	
+	@Test
+	public void sumsMoreThanTwoNumbers() {
+		assertEquals(5,StringCalculator.Add("1,2,2"));
+	}
+	
+	@Test
+	public void sumsNumbersSeperatedByNewLine() {
+		assertEquals(6,StringCalculator.Add("1\n2,3"));
+	}
+	
+	
+	
 }
