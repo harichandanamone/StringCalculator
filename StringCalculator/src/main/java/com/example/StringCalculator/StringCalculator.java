@@ -1,24 +1,64 @@
 package com.example.StringCalculator;
 
 import java.util.Arrays;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class StringCalculator {
 	
-	public static int Add(String input) {
-		if(input.isEmpty())
-			return 0;
-		String delimiter = ",|\n";
+	private String delimiter;
+	private String numbers;
+	
+	
+	private StringCalculator(String delimiter, String numbers) {
 		
-		if(input.startsWith("//")) {
-			String[] arr = input.split("\n");
-			delimiter = arr[0].substring(2);
-			input = arr[1];
+		this.delimiter = delimiter;
+		this.numbers = numbers;
+	}
+
+	
+	private int sum( ) {
+		ensureNoNegativeNumbers();
+		return getNumber()
+				.sum();
+	}
+
+
+	private void ensureNoNegativeNumbers() {
+		String negativeNumberArray = getNumber().filter(n->n<0).mapToObj(Integer::toString).collect(Collectors.joining(","));
+		if(!negativeNumberArray.isEmpty()) {
+			throw new IllegalArgumentException("negatives not allowed : "+negativeNumberArray);
+		}
+	}
+
+	private IntStream getNumber() {
+		if(numbers.isEmpty()) {
+			return IntStream.empty();
+		}
+		else {
+			return Arrays.stream(numbers.split(delimiter))
+					.mapToInt(Integer::parseInt);
 		}
 		
-		Stream<String> numbers = Arrays.stream(input.split(delimiter));
-		return numbers.mapToInt(Integer::parseInt).sum();	
-		
+	}
+
+
+	public static int Add(String input) {
+		return parseInput(input).sum();	
+	}
+
+
+	
+
+	private static StringCalculator parseInput(String input) {
+		if(input.startsWith("//")) {
+			String[] arr = input.split("\n");
+			return new StringCalculator(arr[0].substring(2),arr[1]);
+		}
+		else {
+			return  new StringCalculator(",|\n",input);
+		}
 		
 	}
 	

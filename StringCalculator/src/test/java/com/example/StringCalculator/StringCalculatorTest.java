@@ -2,7 +2,9 @@ package com.example.StringCalculator;
 
 import static org.junit.Assert.assertEquals;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 public class StringCalculatorTest {
 
@@ -32,10 +34,34 @@ public class StringCalculatorTest {
 	}
 	
 	
-	  @Test 
-	  public void sumsNumbersBeginningWithDelimiter() {
+	@Test 
+	public void sumsNumbersBeginningWithDelimiter() {
 		  assertEquals(3,StringCalculator.Add("//;\n1;2"));
-	  }
+	}
+	
+	
+	@Rule
+	public ExpectedException thrown  = ExpectedException.none();
+	
+	@Test
+	public void throwsOnNegativeNumber() {
+		thrown.expect(IllegalArgumentException.class);
+		thrown.expectMessage("negatives not allowed : -3");
+		 StringCalculator.Add("-3");
+	}
+	
+	@Test
+	public void thowsExceptionWithAllNegativeNumbersInMessage() {
+		thrown.expect(IllegalArgumentException.class);
+		thrown.expectMessage("negatives not allowed : -3,-2,-9");
+		 StringCalculator.Add("-3,6,7,-2,-9");
+		
+	}
+	 
+	
+	  
+	  
+	  
 	 
 	
 	
