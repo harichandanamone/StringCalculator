@@ -32,5 +32,12 @@ public class StringCalculatorTest {
 	}
 	
 	
+	  @Test 
+	  public void sumsNumbersBeginningWithDelimiter() {
+		  assertEquals(3,StringCalculator.Add("//;\n1;2"));
+	  }
+	 
+	
+	
 	
 }

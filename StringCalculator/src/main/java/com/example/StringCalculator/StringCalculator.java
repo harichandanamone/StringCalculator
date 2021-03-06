@@ -1,23 +1,25 @@
 package com.example.StringCalculator;
 
+import java.util.Arrays;
+import java.util.stream.Stream;
+
 public class StringCalculator {
 	
 	public static int Add(String input) {
-		int sum=0;
 		if(input.isEmpty())
 			return 0;
-			
-		else if(input.contains(",")) {
-			String[] numbers = input.split(",|\n");
-			for(String num : numbers) {
-				sum += Integer.parseInt(num);
-			}
-			return sum;
-			
+		String delimiter = ",|\n";
+		
+		if(input.startsWith("//")) {
+			String[] arr = input.split("\n");
+			delimiter = arr[0].substring(2);
+			input = arr[1];
 		}
-		else {
-			return Integer.parseInt(input);
-		}
+		
+		Stream<String> numbers = Arrays.stream(input.split(delimiter));
+		return numbers.mapToInt(Integer::parseInt).sum();	
+		
+		
 	}
 	
 	
